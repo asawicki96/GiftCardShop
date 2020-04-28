@@ -41,6 +41,8 @@ class GiftCard(models.Model):
 
     def get_categories(self):
         return ", ".join([obj.name for obj in self.category.all()])
+    
+    get_categories.short_description = 'Categories'
 
     def __str__(self):
         return "Gift card: " + self.brand.name + " purchase amount: " + str(self.purchase_amount)
