@@ -9,6 +9,7 @@ verify_ssl = true
 django = "*"
 django-taggit = "*"
 pillow = "*"
+django-braces = "*"
 
 [requires]
 python_version = "3.8"
