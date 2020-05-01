@@ -4,6 +4,7 @@
     <head>
         <meta charset='utf-8'>
         <title>{% block title %} {% endblock %}</title>
+        <link href='{% static "css/bootstrap.min.css" %}'>
         <link href='{% static "css/base.css" %}' rel='stylesheet'>
     </head>
     <body>
@@ -16,5 +17,7 @@
             {% block content %}
             {% endblock %}
         </div>
+        
+        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>
