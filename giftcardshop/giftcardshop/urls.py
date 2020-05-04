@@ -20,6 +20,6 @@ from accounts import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
+    path('account/', include('accounts.urls')),
     path('', auth_views.IndexView.as_view(), name='index')
 ]
