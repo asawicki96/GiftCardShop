@@ -3,4 +3,5 @@
 *db.sqlite3
 media
 *root
-*boot
+*js
+bootstrap.min.css
