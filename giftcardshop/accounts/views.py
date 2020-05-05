@@ -9,7 +9,6 @@ from .forms import UserEditForm
 
 # Create your views here.
 
-
 class AccountRegisterView(CreateView):
     template_name = 'registration/register.html'
     form_class = UserCreationForm

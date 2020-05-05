@@ -2,3 +2,6 @@
 *migrations
 *db.sqlite3
 media
+*root
+*js
+bootstrap.min.css
