@@ -21,15 +21,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/">Home</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
-                                role="button" aria-expanded="false" id="submenu" 
-                                aria-haspopup="true">Brands</a>
-                            <div class="dropdown-menu" aria-labelledby="submenu">
-                                <a class="dropdown-item" href="#">Most popular</a>
-                                <a class="dropdown-item" href="#">Categories</a>
-                                <a class="dropdown-item" href="#">Search</a>
-                            </div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'brand_list' 'all' %}">Brands</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">About</a>
@@ -37,6 +30,18 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact</a>
                         </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                    role="button" aria-expanded="false" id="submenu" 
+                                    aria-haspopup="true">Account</a>
+                                <div class="dropdown-menu" aria-labelledby="submenu">
+                                    <a class="dropdown-item" href="#">Profile overview</a>
+                                    <a class="dropdown-item" href="{% url 'edit' %}">Edit account</a>
+                                    <a class="dropdown-item" href="{% url 'password_reset' %}">Reset password</a>
+                                </div>
+                            </li>
+                        {% endif %}
                     </ul>
                 
                     <ul class="navbar-nav bg-dark navbar-dark">
@@ -57,7 +62,8 @@
             </nav>
         </header>
         <div class="container">
-            <div class="col-12" id="content">
+            <div class="row">
+            <div class="col-lg-12" id="content">
                 {% block content %}
                     <span class="content-header"><h1>Welcome to!</h1></span>
                     <p>
@@ -69,6 +75,7 @@
                         Fusce vehicula scelerisque enim, in porta neque vulputate eu. Pellentesque eu commodo diam. Aliquam turpis quam, euismod a feugiat mollis, laoreet sed erat. Morbi et scelerisque sem, ac euismod justo. Vestibulum nec erat velit. Nulla luctus enim eu tellus posuere sagittis sed eget mi. Pellentesque elit enim, molestie ut nunc id, varius dictum leo. Proin eleifend augue sit amet lacus tempus, sed aliquam justo volutpat. Donec in tempus enim, non posuere ipsum. Sed id purus sed enim euismod viverra. Nunc lacinia, enim in lobortis venenatis, tellus turpis convallis turpis, eget pharetra ex nunc a felis. Suspendisse eget fringilla metus. Mauris sapien odio, scelerisque a mi in, varius condimentum metus. In at malesuada lectus. Sed ornare, lectus eu facilisis gravida, diam neque pretium nisi, sit amet ullamcorper odio risus vitae massa. Sed eu feugiat ex, et fermentum lacus. 
                     </p>
                 {% endblock %}
+            </div>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

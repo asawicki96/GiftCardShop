@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %} Brands {% endblock %}
+
+{% block content %}
+    <h1> Our Brands </h1>
+    {% if category %}
+        <h2>{{ category|capfirst }}</h2>
+    {% endif %}
+        <div class="row">
+            <div class="col-lg-2 col-md-3 col-xs-3 float-sm-none">
+                <div class="categories">
+                    <h4>Categories</h4>
+                    <ul class="categories">
+                        <li class="category"><a href="{% url 'brand_list' 'all' %}">All</a></li>
+                        {% for category in categories %}
+                            <li class="category"><a href="{% url 'brand_list' category.slug %}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-9 float-md-right float-sm-none">
+                <div class="row">
+                    {% for brand in page_obj %}
+                        <div class="col-xl-3 col-md-4 col-sm-6 float-md-right float-sm-none ">
+                            <a href="{% url 'brand_detail' brand.slug %}" id="brand_href">
+                                <div class="brand">
+                                    {% thumbnail brand.logo "140x140" crop="100%" as im %}
+                                        <img src="{{ im.url }}">
+                                    {% endthumbnail %}
+                                    <span class="brand_name">{{ brand.name }}</span>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>    
+            <div class="row">
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

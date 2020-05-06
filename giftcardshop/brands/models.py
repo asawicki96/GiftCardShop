@@ -23,7 +23,7 @@ class Category(models.Model):
 
 class Brand(models.Model):
     name = models.CharField(max_length=256, unique=True)
-    slug = models.SlugField(max_length=256)
+    slug = models.SlugField(max_length=256, unique=True)
     category = models.ManyToManyField(Category, verbose_name='categories')
     description = models.TextField(blank=True, null=True)
     logo = models.ImageField(upload_to='brands/logo/%Y/%m/%d', blank=True)

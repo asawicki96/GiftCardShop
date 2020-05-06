@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}Brand {{ brand.name }} page {% endblock %}
+
+{% block content %}
+    <div class="brand_detail">
+        {% thumbnail brand.logo "240x240" crop="100%" as im %}
+            <img src="{{ im.url }}">
+        {% endthumbnail %}
+        <h2>{{ brand.name }}</h2>
+        <p><b>Brand description:</b> {{ brand.description }}</p>
+        {% for category in categories %}
+            <a href="{% url 'brand_list' category.slug %}">
+                <div class="category_tag">
+                    #{{ category.name|lower }}
+                </div>
+            </a>
+        {% endfor %}
+        <a href="#">
+            <h3>
+               Go to giftcards
+            </h3>
+        </a>
+    </div>
+{% endblock %}
+    

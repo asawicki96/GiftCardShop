@@ -10,6 +10,8 @@ django = "*"
 django-taggit = "*"
 pillow = "*"
 django-braces = "*"
+thumbnail = "*"
+sorl-thumbnail = "*"
 
 [requires]
 python_version = "3.8"
