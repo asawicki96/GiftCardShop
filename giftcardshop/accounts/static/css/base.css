@@ -60,9 +60,7 @@ body
 
 .brand:hover
 {
-    border-radius: 1cm;
-    border-style: solid;
-    border-color: blue;
+    background-color: white;
 }
 
 .categories
