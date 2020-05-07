@@ -10,7 +10,6 @@ body
 
 #content
 {   
-    text-align: center;
     padding: 1cm;
     height: max-content;
     text-align: center;
@@ -37,3 +36,73 @@ body
     width: 100%;
     padding: 10px;
 }
+
+.brand
+{
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+    border-radius: 1cm;
+    border-style: solid hidden;
+}
+
+.brand_detail img
+{
+    border-radius: 50%;
+    margin: auto;
+}
+
+.brand img
+{
+    border-radius: 50%;
+    margin: auto;
+}
+
+.brand:hover
+{
+    background-color: white;
+}
+
+.categories
+{
+    min-height: 100%;
+    text-align: left;
+    max-width: 100px;
+    font-weight: 600;
+    color: black;
+}
+
+.categories a
+{
+    color: black;
+    margin-bottom: 5px;
+}
+.categories a:hover
+{
+    color: blue;
+}
+
+.pagination
+{   
+    margin-top: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+span.brand_name
+{   
+    display: block;
+    font-weight: 800;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+.brand_detail h3
+{
+    margin-top: 20px;
+    color: blue;
+}
+
+
