@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.views.generic.list import ListView
 from django.views import View
 from braces.views import LoginRequiredMixin
 from .models import Brand, Category

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %} Brands {% endblock %}
+
+{% block content %}
+    <h1> Giftcards </h1>
+    {% if brand %}
+        <h2>{{ brand.name }}'s giftcards </h2>
+    {% endif %}
+    <div class="row">
+        <div class="col-lg-2 col-md-3 col-xs-3 float-sm-none">
+            <div class='row'>
+                <div class="similar_brands">
+                    <h5>Similar brands: </h5>
+                    <ul class="s_brands">
+                        {% for s_brand in similar_brands %}
+                            <li class="s_brand"><a href="{% url 'brand_detail' s_brand.slug %}">{{ s_brand.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <h5>Ordering: </h5>
+                <div class="col-sm-12">
+                    <div class="ordering">
+                        <a class='ordering_button' href="{% url 'giftcards_list' brand.slug 'price_descending' %}">Price descending</a>
+                    </div>
+                    <div class="ordering">
+                        <a class='ordering_button' href="{% url 'giftcards_list' brand.slug 'price_ascending' %}">Price ascending</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-12 col-sm-12 col-xs-9 float-md-right float-sm-none">
+            {% if page_obj %}
+                <div class="row">
+                    {% for giftcard in page_obj %}
+                        <div class="col-xl-3 col-md-4 col-sm-6 float-md-right float-sm-none ">
+                            <div class="giftcard">
+                                <a href="{% url 'brand_detail' brand.slug %}" id="brand_href">
+                                    {% thumbnail brand.logo "140x140" crop="100%" as im %}
+                                        <img src="{{ im.url }}">
+                                    {% endthumbnail %}
+                                </a>
+                                <span class="brand_name">{{ giftcard.purchase_amount }} PLN</span>
+                                <a href="#">
+                                    <div class="add_to_cart_button">
+                                        <span class="text">Add to cart</span>
+                                    </div>
+                                </a>
+                            </div> 
+                        </div>
+                    {% endfor %}   
+                <div class="row">
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
+                            <span class="current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row" id="no_giftcards">
+                    <h1>We have no giftcards for You here</h1>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

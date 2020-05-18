@@ -43,7 +43,7 @@ body
     padding: 10px;
     text-align: center;
     border-radius: 1cm;
-    border-style: solid hidden;
+    
 }
 
 .brand_detail img
@@ -105,4 +105,95 @@ span.brand_name
     color: blue;
 }
 
+.giftcard
+{
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+    border-radius: 1cm;
+    
+}
 
+.giftcard img
+{
+    border-radius: 50%;
+    margin: auto;
+}
+
+.giftcard:hover
+{
+    background-color: white;
+}
+
+.giftcard .add_to_cart_button
+{
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    padding: 5px;
+    color: black;
+    max-width: 70%;
+    
+}
+
+.giftcard a:hover
+{
+    text-decoration: none;
+}
+
+.giftcard .add_to_cart_button:hover
+{
+    background-color: #808080; 
+    color: white;
+}
+
+#no_giftcards
+{
+    margin-top: 40px;
+    padding: 40px;
+}
+
+#no_giftcards h1
+{
+    margin: auto;
+}
+
+.similar_brands
+{
+    min-height: 100%;
+    text-align: left;
+    max-width: 100px;
+    font-weight: 600;
+    color: black;
+}
+
+.similar_brands a
+{
+    color: black;
+    margin-bottom: 5px;
+}
+.similar_brands a:hover
+{
+    text-decoration: none;
+    color: blue;
+}
+
+.ordering
+{
+    text-align: left;
+    min-width: 100%;
+}
+
+.ordering .ordering_button
+{
+    font-weight: 600;
+    color: black;
+}
+
+.ordering .ordering_button:hover
+{
+    text-decoration: none;
+    color:blue;
+}
