@@ -23,6 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'ku@m@ssg@im+=n)!i8@@ut#owjtkmyl%s33anm2$(e=llhaal('
+CART_SESSION_ID = 'cart'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'giftcards',
     'orders',
     'accounts',
+    'cart',
     'taggit',
     'sorl.thumbnail',
     'django.contrib.admin',

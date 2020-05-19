@@ -44,11 +44,11 @@
                                     {% endthumbnail %}
                                 </a>
                                 <span class="brand_name">{{ giftcard.purchase_amount }} PLN</span>
-                                <a href="#">
-                                    <div class="add_to_cart_button">
-                                        <span class="text">Add to cart</span>
-                                    </div>
-                                </a>
+                                <form action="{% url 'cart_add' %}" method="POST">
+                                    <input type="hidden" name="giftcard_id" value="{{ giftcard.id }}">
+                                    {% csrf_token %}
+                                    <button type="submit">Buy now</button>
+                                </form>
                             </div> 
                         </div>
                     {% endfor %}   

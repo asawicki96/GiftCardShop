@@ -25,5 +25,6 @@ urlpatterns = [
     path('account/', include('accounts.urls')),
     path('brands/', include('brands.urls')),
     path('giftcards/', include('giftcards.urls')),
+    path('cart/', include('cart.urls')),
     path('', auth_views.IndexView.as_view(), name='index')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
