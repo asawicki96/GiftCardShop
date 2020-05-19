@@ -116,7 +116,7 @@ LOGIN_REDIRECT_URL = reverse_lazy('index')
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Warsaw'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
