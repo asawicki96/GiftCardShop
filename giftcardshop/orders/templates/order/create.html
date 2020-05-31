@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} Submit your order {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <form action="." method="POST">
+                <h1>Submit your order</h1>
+                <h3>Fill the form underneath to make an order:</h3>
+                {{ form.as_p }}
+                {% csrf_token %}
+                <button type="submit" class="btn btn-dark btn-md">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
