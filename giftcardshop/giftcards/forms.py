@@ -11,7 +11,6 @@ class GiftCardAdminCreateForm(forms.ModelForm):
     def save(self, commit=True):
         cleanedData = self.cleaned_data
         quantity = cleanedData.get('quantity', None)
-        #categories = cleanedData.get('category', None)
 
         for i in range(quantity):
             g_card = GiftCard.objects.create(
@@ -20,8 +19,6 @@ class GiftCardAdminCreateForm(forms.ModelForm):
                 price = cleanedData.get('price', None),
                 description = cleanedData.get('description', None)
             )
-            
-            #g_card = super().save(commit=commit)
             
         return g_card
         
