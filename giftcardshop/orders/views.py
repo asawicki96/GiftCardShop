@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from cart.cart import Cart
 from django.views import View
 from braces.views import LoginRequiredMixin
 from .forms import OrderCreateForm
 from .models import Order, OrderItem
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 
@@ -41,5 +43,27 @@ class OrderCreate(View, LoginRequiredMixin):
                 giftcard.save()
 
             cart.clear()
+            self.send_mail(order)
 
-        return redirect('/')
+        return redirect('checkout', order.id)
+
+
+    def send_mail(self, order):
+        subject = "GiftCardShop order: " + str(order.id) + "."
+        from_email = settings.WEBSITE_EMAIL
+        recipient_list = [order.email]
+        message = ''' Thank You for Your order. Please submit Your payment to get your giftcard codes.'''
+        fail_silently = False
+        auth_user = settings.EMAIL_HOST_USER
+        auth_password = settings.EMAIL_HOST_PASSWORD
+        
+        send_mail(
+            subject=subject,
+            from_email=from_email,
+            recipient_list=recipient_list,
+            message=message,
+            fail_silently=fail_silently,
+            auth_user=auth_user,
+            auth_password=auth_password
+        )
+
