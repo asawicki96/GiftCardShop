@@ -60,6 +60,7 @@ body
 
 .brand:hover
 {
+    transition-duration: 0.5s;
     background-color: white;
 }
 
@@ -122,31 +123,30 @@ span.brand_name
 
 .giftcard:hover
 {
+    transition-duration: 0.5s;
     background-color: white;
 }
 
-.giftcard .add_to_cart_button
-{
-    font-weight: 600;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 10px;
-    padding: 5px;
-    color: black;
-    max-width: 70%;
-    
-}
 
 .giftcard a:hover
 {
     text-decoration: none;
 }
-
-.giftcard .add_to_cart_button:hover
-{
-    background-color: #808080; 
+  
+.giftcard button:hover {
+    background-color: #303030;
     color: white;
+}
+
+.giftcard button
+{
+    transition-duration: 0.4s;
+    border-radius: 50%;
+    border-style: hidden;
+    padding: 10px;
+    color: black;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    
 }
 
 #no_giftcards
@@ -196,4 +196,27 @@ span.brand_name
 {
     text-decoration: none;
     color:blue;
+}
+
+#cart_table
+{
+    margin-top: 20px;
+}
+
+
+#cart_table .brand_name
+{
+    color: black;
+
+}
+
+#cart_table .brand_name:hover
+{
+    text-decoration: none;
+}
+
+#cart_table .subtotal
+{
+    border-top: #303030 solid;
+    color: red;
 }

@@ -15,7 +15,6 @@ class GiftCardsLisView(View, LoginRequiredMixin):
         else:
             ordering = 'purchase_amount'
         
-
         brand = get_object_or_404(Brand, slug=slug)
         giftcards = GiftCard.objects.filter(brand=brand)
 

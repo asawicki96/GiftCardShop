@@ -47,14 +47,17 @@
                     <ul class="navbar-nav bg-dark navbar-dark">
                         {% if user.is_authenticated %}
                             <li class="nav-item mr-1">
-                                <a class="nav-link text-light" href="{% url 'logout' %}" id="login-button">Logout</a>
+                                <a class="nav-link text-light" href="{% url 'cart_detail' %}">Your cart</a>
+                            </li>
+                            <li class="nav-item mr-1">
+                                <a class="nav-link text-light" href="{% url 'logout' %}" >Logout</a>
                             </li>   
                         {% else %}
                             <li class="nav-item mr-3">
-                                <a class="nav-link text-light" href="{% url 'login' %}" id="login-button">Login</a>
+                                <a class="nav-link text-light" href="{% url 'login' %}" >Login</a>
                             </li>
                             <li class="nav-item mr-1">
-                                <a class="nav-link text-light" href="{% url 'register' %}" id="login-button">Register</a>
+                                <a class="nav-link text-light" href="{% url 'register' %}" >Register</a>
                             </li>
                         {% endif %}
                     </ul>
