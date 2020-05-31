@@ -4,23 +4,22 @@ from giftcards.models import GiftCard
 
 class Cart(object):
     def __init__(self, request):
-        self.session = request.session
-        cart = self.session.get(settings.CART_SESSION_ID)
+        cart = request.session.get(settings.CART_SESSION_ID)
         if not cart:
-            cart = self.session[settings.CART_SESSION_ID] = {}
+            cart = request.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
         
-    def add(self, giftcard):
+    def add(self, request, giftcard):
         giftcard_id = str(giftcard.id)
         if giftcard_id not in self.cart:
             self.cart[giftcard_id] = {'price': str(giftcard.purchase_amount)}
-        self.save()
+        self.save(request)
 
-    def remove(self, giftcard):
+    def remove(self, request, giftcard):
         giftcard_id = str(giftcard.id)
         if giftcard_id in self.cart:
             del self.cart[giftcard_id]
-            self.save()
+            self.save(request)
 
     def __iter__(self):
         giftcards_ids = self.cart.keys()
@@ -39,10 +38,10 @@ class Cart(object):
     def get_len(self):
         return sum(1 for item in self.cart.values())
 
-    def save(self):
-        self.session[settings.CART_SESSION_ID] = self.cart
-        self.session.modified = True
+    def save(self, request):
+        request.session[settings.CART_SESSION_ID] = self.cart
+        request.session.modified = True
     
-    def clear(self):
-        del self.session[settings.CART_SESSION_ID]
-        self.session.modified = True
+    def clear(self, request):
+        del request.session[settings.CART_SESSION_ID]
+        request.session.modified = True

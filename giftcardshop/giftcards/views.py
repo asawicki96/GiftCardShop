@@ -20,7 +20,7 @@ class GiftCardsLisView(View, LoginRequiredMixin):
 
         categories = brand.category.all()
 
-        similar_brands = Brand.objects.filter(category__in=categories).distinct()[:15]
+        similar_brands = Brand.objects.filter(category__in=categories).distinct().exclude(slug=brand.slug)[:15]
 
         giftcards = giftcards.order_by(ordering)
         
