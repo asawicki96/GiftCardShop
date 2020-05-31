@@ -12,7 +12,7 @@ class CartAddView(View, LoginRequiredMixin):
         giftcard_id = request.POST.get('giftcard_id', None)
 
         giftcard = get_object_or_404(GiftCard, id=giftcard_id)
-        cart.add(giftcard=giftcard)
+        cart.add(request, giftcard=giftcard)
 
         return redirect('cart_detail')
 
@@ -20,7 +20,7 @@ class CartRemoveView(View, LoginRequiredMixin):
     def get(self, request, giftcard_id):
         cart = Cart(request)
         giftcard = get_object_or_404(GiftCard, id=giftcard_id)
-        cart.remove(giftcard)
+        cart.remove(request, giftcard)
 
         return redirect('cart_detail')
 
