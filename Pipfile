@@ -10,7 +10,6 @@ django = "*"
 django-taggit = "*"
 pillow = "*"
 django-braces = "*"
-thumbnail = "*"
 sorl-thumbnail = "*"
 
 [requires]
