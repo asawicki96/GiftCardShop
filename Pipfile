@@ -11,6 +11,7 @@ django-taggit = "*"
 pillow = "*"
 django-braces = "*"
 sorl-thumbnail = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.8"
