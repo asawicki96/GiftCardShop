@@ -1,11 +1,17 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from cart.cart import Cart
 from django.views import View
 from braces.views import LoginRequiredMixin
 from .forms import OrderCreateForm
 from .models import Order, OrderItem
+from giftcards.models import GiftCard
 from django.core.mail import send_mail
 from django.conf import settings
+import stripe
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.max_network_retries = 2
 
 # Create your views here.
 
@@ -33,15 +39,16 @@ class OrderCreate(View, LoginRequiredMixin):
             order = form.save()
 
             for item in cart:
-                giftcard = OrderItem.objects.create(
+                orderItem = OrderItem.objects.create(
                     order=order,
                     product=item['giftcard'],
                     price=item['price']
                 )
 
+                giftcard = get_object_or_404(GiftCard, pk=item['giftcard'].id)
                 giftcard.available = False
                 giftcard.save()
-
+            
             cart.clear()
             self.send_mail(order)
 

@@ -5,7 +5,7 @@
 
 {% block content %}
   <script src="https://js.stripe.com/v3/"></script>
-  <form action="{% url 'checkout' order_id %}" method="post" id="payment-form">
+  <form id="payment-form">
     <div class="form-row">
       <label for="card-element">
         Credit or debit card
@@ -18,12 +18,9 @@
       <div id="card-errors" role="alert"></div>
     </div>
     {% csrf_token %}
-    <button class="btn btn-dark btn-lg" id="payment_button">Submit Payment</button>
+    <input type="hidden" id="client_secret" value="{{ client_secret }}">
+    <button class="btn btn-dark btn-lg" id="submit">Submit Payment</button>
   </form>
-
-
-
-
   
   <script>
         // Create a Stripe client.
@@ -57,64 +54,38 @@
     card.mount('#card-element');
     
     // Handle real-time validation errors from the card Element.
-    card.on('change', function(event) {
-      var displayError = document.getElementById('card-errors');
-      if (event.error) {
-        displayError.textContent = event.error.message;
+    card.on('change', ({error}) => {
+      const displayError = document.getElementById('card-errors');
+      if (error) {
+        displayError.textContent = error.message;
       } else {
         displayError.textContent = '';
       }
     });
 
-    // Handle form submission.
     var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-    
-      stripe.createToken(card).then(function(result) {
-        if (result.error) {
-          // Inform the user if there was an error.
-          var errorElement = document.getElementById('card-errors');
-          errorElement.textContent = result.error.message;
-        } else {
-          // Send the token to your server.
-          stripeTokenHandler(result.token);
-        }
-      });
-    });
+    var client_secret = document.getElementById('client_secret').value;
+    var intent_id = "{{intent_id}}/";
+   
 
-    // Submit the form with the token ID.
-    function stripeTokenHandler(token) {
-      // Insert the token ID into the form so it gets submitted to the server
-      var form = document.getElementById('payment-form');
-      var hiddenInput = document.createElement('input');
-      hiddenInput.setAttribute('type', 'hidden');
-      hiddenInput.setAttribute('name', 'stripeToken');
-      hiddenInput.setAttribute('value', token.id);
-      form.appendChild(hiddenInput);
-    
-      // Submit the form
-      form.submit();
-    }
-    
-    var form = document.getElementById('payment-form');
-
-form.addEventListener('submit', function(ev) {
-  ev.preventDefault();
-  stripe.confirmCardPayment(clientSecret, {
-    payment_method: {
-      card: card,
-      billing_details: {
-        name: 'Jenny Rosen'
-      }
-    }
-  }).then(function(result) {
+  
+  form.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+    stripe.confirmCardPayment(client_secret , {
+      payment_method: {
+        card: card,
+      },
+    }).then(function(result) {
     if (result.error) {
       // Show error to your customer (e.g., insufficient funds)
+      const displayError = document.getElementById('card-errors');
+        displayError.textContent = error.message;
       console.log(result.error.message);
+      
     } else {
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {
+        return window.location.replace("{% url 'payment_processed' intent_id %}")
         // Show a success message to your customer
         // There's a risk of the customer closing the window before callback
         // execution. Set up a webhook or plugin to listen for the
@@ -124,5 +95,6 @@ form.addEventListener('submit', function(ev) {
     }
   });
 });
+
   </script>
 {% endblock %}
