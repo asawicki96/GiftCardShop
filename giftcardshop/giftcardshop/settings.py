@@ -23,13 +23,31 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'ku@m@ssg@im+=n)!i8@@ut#owjtkmyl%s33anm2$(e=llhaal('
+
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
+
+WEBSITE_EMAIL = os.getenv('WEBSITE_EMAIL')
+
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+
 CART_SESSION_ID = 'cart'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Application definition
 
@@ -40,6 +58,8 @@ INSTALLED_APPS = [
     'accounts',
     'cart',
     'taggit',
+    'payments',
+    'stripe',
     'sorl.thumbnail',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -137,6 +157,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, './accounts/static'),
+    os.path.join(BASE_DIR, './payments/static'),
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

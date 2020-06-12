@@ -1,7 +1,7 @@
 body
 {
     margin: 0;
-    background-image: url("../media/bg.jpg");
+    background-image: linear-gradient(to bottom right,#7CFC00, #00CED1, #7CFC00);
     background-position: bottom;
     background-size: cover;
     min-height: 100vh;
@@ -219,3 +219,37 @@ span.brand_name
     border-top: #303030 solid;
     color: red;
 }
+
+.StripeElement {
+    box-sizing: border-box;
+  
+    height: 40px;
+    width: 100%;
+  
+    padding: 10px 12px;
+  
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: white;
+  
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+  }
+
+  .StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+  }
+  
+  .StripeElement--invalid {
+    border-color: #fa755a;
+  }
+  
+  .StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+  }
+
+  #payment_button 
+  {
+      margin-top: 20px;
+  }

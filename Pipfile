@@ -12,6 +12,7 @@ pillow = "*"
 django-braces = "*"
 sorl-thumbnail = "*"
 psycopg2-binary = "*"
+stripe = "*"
 
 [requires]
 python_version = "3.8"
