@@ -26,7 +26,7 @@ class Brand(models.Model):
     slug = models.SlugField(max_length=256, unique=True)
     category = models.ManyToManyField(Category, verbose_name='categories')
     description = models.TextField(blank=True, null=True)
-    logo = models.ImageField(upload_to='brands/logo/%Y/%m/%d', blank=True)
+    logo = models.BinaryField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)

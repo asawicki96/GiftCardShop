@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from cart.cart import Cart
 from django.views import View
 from braces.views import LoginRequiredMixin
-from .forms import OrderCreateForm
-from .models import Order, OrderItem
+from .models import Order
 from giftcards.models import GiftCard
 from django.core.mail import send_mail
 from django.conf import settings
@@ -16,21 +15,6 @@ stripe.max_network_retries = 2
 # Create your views here.
 
 class OrderCreate(View, LoginRequiredMixin):
-    def get(self, request):
-        user = request.user
-        initial = {
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'email': user.email,
-        }
-
-        form = OrderCreateForm(initial=initial)
-
-        context = {
-            'form': form
-        }
-        return render(request, 'order/create.html', context)
-
     def post(self, request):
         cart = Cart(request)
         form = OrderCreateForm(request.POST)
