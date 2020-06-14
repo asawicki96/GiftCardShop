@@ -8,7 +8,7 @@ class GiftCardAdminCreateForm(forms.ModelForm):
         model = GiftCard
         fields = '__all__'
 
-    def save_form(self, commit=True):
+    def save(self, commit=True):
         cleanedData = self.cleaned_data
         quantity = cleanedData.get('quantity', None)
 
@@ -20,6 +20,6 @@ class GiftCardAdminCreateForm(forms.ModelForm):
                 )
             
             
-        return g_card
+        return super().save(commit=commit)
         
 

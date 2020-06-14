@@ -12,7 +12,7 @@ class Cart(object):
     def add(self, request, giftcard):
         giftcard_id = str(giftcard.id)
         if giftcard_id not in self.cart:
-            self.cart[giftcard_id] = {'price': str(giftcard.purchase_amount)}
+            self.cart[giftcard_id] = {'price': str(giftcard.value)}
         self.save(request)
 
     def remove(self, request, giftcard):

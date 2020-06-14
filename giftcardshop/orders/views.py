@@ -17,21 +17,15 @@ stripe.max_network_retries = 2
 class OrderCreate(View, LoginRequiredMixin):
     def post(self, request):
         cart = Cart(request)
-        form = OrderCreateForm(request.POST)
+        
+        order = Order.objects.create(
+            user = request.user
+        )
 
-        if form.is_valid():
-            order = form.save()
-
-            for item in cart:
-                orderItem = OrderItem.objects.create(
-                    order=order,
-                    product=item['giftcard'],
-                    price=item['price']
-                )
-
-                giftcard = get_object_or_404(GiftCard, pk=item['giftcard'].id)
-                giftcard.available = False
-                giftcard.save()
+        for item in cart:
+            giftcard = get_object_or_404(Order, pk=item['giftcard'].id)
+            giftcard.order = order
+            giftcard.save()
             
             cart.clear()
             self.send_mail(order)
