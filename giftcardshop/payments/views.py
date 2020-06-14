@@ -55,7 +55,7 @@ def send_codes(order):
 
     subject = "GiftCardShop order: " + str(order.id) + " payment received."
     from_email = settings.WEBSITE_EMAIL
-    recipient_list = [order.email]
+    recipient_list = [order.user.email]
 
     message = '''We have received your payment, thank You for shopping in our store.
     Your giftcards codes:\n
