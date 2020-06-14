@@ -1,5 +1,10 @@
 from django.contrib import admin
 from .models import Brand, Category
+from django import forms
+from django.db import models
+from .forms import BinaryFileInput
+
+
 
 # Register your models here.
 
@@ -12,10 +17,14 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category_list', 'created', 'active']
+    list_display = ['name', 'category_list', 'created', 'active', 'scheme_image_tag']
     list_filter = ['created', 'category']
     search_fields = ['name']
     prepopulated_fields = {'slug': ('name',)}
+
+    formfield_overrides = {
+        models.BinaryField: {'widget': BinaryFileInput()},
+    }
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('category')

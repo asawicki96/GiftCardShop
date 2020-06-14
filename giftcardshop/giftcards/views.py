@@ -10,10 +10,10 @@ class GiftCardsLisView(View, LoginRequiredMixin):
     def get(self, request, slug=None, ordering=None):
         page = request.GET.get('page', None)
 
-        if ordering == 'price_descending':
-            ordering = '-purchase_amount'
+        if ordering == 'value':
+            ordering = '-value'
         else:
-            ordering = 'purchase_amount'
+            ordering = 'value'
         
         brand = get_object_or_404(Brand, slug=slug)
         giftcards = GiftCard.objects.filter(brand=brand)

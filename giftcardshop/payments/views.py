@@ -21,7 +21,7 @@ class CheckoutView(View, LoginRequiredMixin):
     def get(self, request, order_id):
         order = get_object_or_404(Order, pk=order_id)
         price = int(order.get_total_cost())*100
-stripe.Charge()
+
         intent = stripe.PaymentIntent.create(
                 amount = price,
                 currency = 'pln',

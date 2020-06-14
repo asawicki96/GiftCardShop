@@ -1,5 +1,7 @@
 from django.db import models
 from taggit.managers import TaggableManager
+from base64 import b64encode
+from django.utils.safestring import mark_safe
 
 # Create your models here.
 
@@ -26,7 +28,7 @@ class Brand(models.Model):
     slug = models.SlugField(max_length=256, unique=True)
     category = models.ManyToManyField(Category, verbose_name='categories')
     description = models.TextField(blank=True, null=True)
-    logo = models.BinaryField(blank=True)
+    logo = models.BinaryField(blank=True, null=True, editable=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
@@ -41,5 +43,12 @@ class Brand(models.Model):
     def __str__(self):
         return self.name
 
+    def scheme_image_tag(self):
+        return mark_safe('<img src = "data: image/png; base64, {}" width="200" height="100">'.format(
+            b64encode(self.logo).decode()
+        ))
+
+    scheme_image_tag.short_description = 'Image'
+    scheme_image_tag.allow_tags = True
     
 
