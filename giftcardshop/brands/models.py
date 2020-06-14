@@ -30,7 +30,7 @@ class Brand(models.Model):
     slug = models.SlugField(max_length=256, unique=True)
     category = models.ManyToManyField(Category, verbose_name='categories')
     description = models.TextField(blank=True, null=True)
-    logo = models.BinaryField(blank=True, null=True, editable=True)
+    logo = models.ImageField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
@@ -45,17 +45,4 @@ class Brand(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, commit=False):
-        self.logo = base64.encodestring(self.logo)
-        return super().save()
-
-    def get_logo(self):
-
-        return mark_safe('<img src = "data: base64, {}" width="200" height="100">'.format(
-            base64.b64encode(self.logo).decode('utf-8')
-        ))
-
-    get_logo.short_description = 'Image'
-    get_logo.allow_tags = True
-    
 
