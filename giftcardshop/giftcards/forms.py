@@ -15,11 +15,11 @@ class GiftCardAdminCreateForm(forms.ModelForm):
         for i in range(quantity):
             g_card = GiftCard.objects.create(
                 brand = cleanedData.get('brand', None),
-                purchase_amount = cleanedData.get('purchase_amount', None),
-                price = cleanedData.get('price', None),
-                description = cleanedData.get('description', None)
-            )
+                value = cleanedData.get('value', None),
+                price = cleanedData.get('price', None)
+                )
             
-        return g_card
+            
+        return super().save(commit=commit)
         
 

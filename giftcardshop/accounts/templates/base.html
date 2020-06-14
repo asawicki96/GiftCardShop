@@ -36,7 +36,7 @@
                                     role="button" aria-expanded="false" id="submenu" 
                                     aria-haspopup="true">Account</a>
                                 <div class="dropdown-menu" aria-labelledby="submenu">
-                                    <a class="dropdown-item" href="#">Profile overview</a>
+                                    <a class="dropdown-item" href="{% url 'overview' %}">Profile overview</a>
                                     <a class="dropdown-item" href="{% url 'edit' %}">Edit account</a>
                                     <a class="dropdown-item" href="{% url 'password_reset' %}">Reset password</a>
                                 </div>

@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from cart.cart import Cart
 from django.views import View
 from braces.views import LoginRequiredMixin
-from .forms import OrderCreateForm
-from .models import Order, OrderItem
+from .models import Order
 from giftcards.models import GiftCard
 from django.core.mail import send_mail
 from django.conf import settings
+from payments.models import Payment
 import stripe
 
 
@@ -17,48 +17,27 @@ stripe.max_network_retries = 2
 
 class OrderCreate(View, LoginRequiredMixin):
     def get(self, request):
-        user = request.user
-        initial = {
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'email': user.email,
-        }
-
-        form = OrderCreateForm(initial=initial)
-
-        context = {
-            'form': form
-        }
-        return render(request, 'order/create.html', context)
-
-    def post(self, request):
         cart = Cart(request)
-        form = OrderCreateForm(request.POST)
+        
+        order = Order.objects.create(
+            user = request.user
+        )
 
-        if form.is_valid():
-            order = form.save()
-
-            for item in cart:
-                orderItem = OrderItem.objects.create(
-                    order=order,
-                    product=item['giftcard'],
-                    price=item['price']
-                )
-
-                giftcard = get_object_or_404(GiftCard, pk=item['giftcard'].id)
-                giftcard.available = False
-                giftcard.save()
+        for item in cart:
+            giftcard = get_object_or_404(GiftCard, pk=item['giftcard'].id)
+            giftcard.order = order
+            giftcard.save()
             
-            cart.clear()
-            self.send_mail(order)
+        cart.clear(request)
+        self.send_mail(order)
 
-        return redirect('checkout', order.id)
+        return redirect('detail', order.id)
 
 
     def send_mail(self, order):
         subject = "GiftCardShop order: " + str(order.id) + "."
         from_email = settings.WEBSITE_EMAIL
-        recipient_list = [order.email]
+        recipient_list = [order.user.email]
         message = ''' Thank You for Your order. Please submit Your payment to get your giftcard codes.'''
         fail_silently = False
         auth_user = settings.EMAIL_HOST_USER
@@ -74,3 +53,24 @@ class OrderCreate(View, LoginRequiredMixin):
             auth_password=auth_password
         )
 
+class OrderDetailView(View, LoginRequiredMixin):
+    def get(self, request, order_id):
+        order = get_object_or_404(Order, pk=order_id)
+        giftcards = GiftCard.objects.filter(order=order)
+        payments = Payment.objects.filter(order=order)
+
+        paid = False
+
+        for payment in payments:
+            if payment.paid:
+                paid = True
+                break
+
+
+        context = {
+            'order': order,
+            'giftcards': giftcards,
+            'paid': paid
+        }
+
+        return render(request, 'order/detail.html', context)

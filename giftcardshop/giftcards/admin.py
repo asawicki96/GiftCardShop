@@ -11,9 +11,8 @@ class GiftCardAdmin(admin.ModelAdmin):
         'brand_name', 
         'get_categories',
         'price', 
-        'purchase_amount', 
-        'created', 
-        'available']
+        'value', 
+        'created']
 
     list_filter = ['created', 'brand__name', 'brand__category']
     search_fields = ['brand__name', 'brand__category']        
