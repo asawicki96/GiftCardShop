@@ -12,7 +12,7 @@ class GiftCard(models.Model):
     brand = models.ForeignKey(to=Brand, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    order = models.ForeignKey(to=Order, on_delete=models.DO_NOTHING, null=True, blank=True)
+    order = models.ForeignKey(to=Order, on_delete=models.SET_NULL, null=True, blank=True)
     
     class Meta:
         ordering = ('-created',)

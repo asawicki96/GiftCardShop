@@ -6,6 +6,7 @@ from django.contrib.auth import login, authenticate
 from django.urls import reverse_lazy
 from braces.views import LoginRequiredMixin
 from .forms import UserEditForm
+from orders.models import Order
 
 # Create your views here.
 
@@ -35,3 +36,14 @@ class AccountEditView(View, LoginRequiredMixin):
         if form.is_valid():
             form.save()
         return redirect('index')
+
+class ProfileOverwievView(View, LoginRequiredMixin):
+    def get(self, request):
+        user = request.user
+        orders = Order.objects.filter(user=user)
+
+        context = {
+            'orders': orders
+        }
+
+        return render(request, 'overview.html', context)

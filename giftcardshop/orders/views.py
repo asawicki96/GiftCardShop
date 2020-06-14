@@ -6,6 +6,7 @@ from .models import Order
 from giftcards.models import GiftCard
 from django.core.mail import send_mail
 from django.conf import settings
+from payments.models import Payment
 import stripe
 
 
@@ -15,7 +16,7 @@ stripe.max_network_retries = 2
 # Create your views here.
 
 class OrderCreate(View, LoginRequiredMixin):
-    def post(self, request):
+    def get(self, request):
         cart = Cart(request)
         
         order = Order.objects.create(
@@ -23,20 +24,20 @@ class OrderCreate(View, LoginRequiredMixin):
         )
 
         for item in cart:
-            giftcard = get_object_or_404(Order, pk=item['giftcard'].id)
+            giftcard = get_object_or_404(GiftCard, pk=item['giftcard'].id)
             giftcard.order = order
             giftcard.save()
             
-            cart.clear()
-            self.send_mail(order)
+        cart.clear(request)
+        self.send_mail(order)
 
-        return redirect('checkout', order.id)
+        return redirect('detail', order.id)
 
 
     def send_mail(self, order):
         subject = "GiftCardShop order: " + str(order.id) + "."
         from_email = settings.WEBSITE_EMAIL
-        recipient_list = [order.email]
+        recipient_list = [order.user.email]
         message = ''' Thank You for Your order. Please submit Your payment to get your giftcard codes.'''
         fail_silently = False
         auth_user = settings.EMAIL_HOST_USER
@@ -52,3 +53,24 @@ class OrderCreate(View, LoginRequiredMixin):
             auth_password=auth_password
         )
 
+class OrderDetailView(View, LoginRequiredMixin):
+    def get(self, request, order_id):
+        order = get_object_or_404(Order, pk=order_id)
+        giftcards = GiftCard.objects.filter(order=order)
+        payments = Payment.objects.filter(order=order)
+
+        paid = False
+
+        for payment in payments:
+            if payment.paid:
+                paid = True
+                break
+
+
+        context = {
+            'order': order,
+            'giftcards': giftcards,
+            'paid': paid
+        }
+
+        return render(request, 'order/detail.html', context)

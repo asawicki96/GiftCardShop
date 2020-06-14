@@ -1,4 +1,6 @@
 from django import forms
+from base64 import b64encode
+import base64
 
 class BinaryFileInput(forms.ClearableFileInput):
 

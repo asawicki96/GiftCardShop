@@ -1,7 +1,9 @@
 from django.db import models
 from taggit.managers import TaggableManager
 from base64 import b64encode
+import base64
 from django.utils.safestring import mark_safe
+from PIL import Image
 
 # Create your models here.
 
@@ -43,12 +45,17 @@ class Brand(models.Model):
     def __str__(self):
         return self.name
 
-    def scheme_image_tag(self):
-        return mark_safe('<img src = "data: image/png; base64, {}" width="200" height="100">'.format(
-            b64encode(self.logo).decode()
+    def save(self, commit=False):
+        self.logo = base64.encodestring(self.logo)
+        return super().save()
+
+    def get_logo(self):
+
+        return mark_safe('<img src = "data: base64, {}" width="200" height="100">'.format(
+            base64.b64encode(self.logo).decode('utf-8')
         ))
 
-    scheme_image_tag.short_description = 'Image'
-    scheme_image_tag.allow_tags = True
+    get_logo.short_description = 'Image'
+    get_logo.allow_tags = True
     
 
