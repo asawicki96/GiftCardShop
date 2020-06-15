@@ -15,7 +15,7 @@ stripe.max_network_retries = 2
 
 # Create your views here.
 
-class OrderCreate(View, LoginRequiredMixin):
+class OrderCreate(LoginRequiredMixin, View):
     def get(self, request):
         cart = Cart(request)
         
@@ -25,6 +25,11 @@ class OrderCreate(View, LoginRequiredMixin):
 
         for item in cart:
             giftcard = get_object_or_404(GiftCard, pk=item['giftcard'].id)
+
+            if giftcard.order:
+                cart.remove(request, giftcard)
+                return render(request, 'no_card.html', {'giftcard': giftcard})
+
             giftcard.order = order
             giftcard.save()
             
@@ -74,3 +79,15 @@ class OrderDetailView(View, LoginRequiredMixin):
         }
 
         return render(request, 'order/detail.html', context)
+
+class OrderDeleteView(LoginRequiredMixin, View):
+    def get(self, request, order_id):
+        order = get_object_or_404(Order, pk=order_id)
+        payments = Payment.objects.filter(order=order)
+        
+        for payment in payments:
+            payment.delete()
+        order.delete()
+        
+        return redirect('index')
+        

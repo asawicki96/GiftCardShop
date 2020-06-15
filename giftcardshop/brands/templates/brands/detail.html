@@ -17,10 +17,10 @@
                 </div>
             </a>
         {% endfor %}
+        <br>
+        
         <a href="{% url 'giftcards_list' slug=brand.slug ordering='price_ascending' %}">
-            <h3>
-               Go to giftcards
-            </h3>
+            <button type="button" class="btn btn-success btn-lg">Go to giftcards</button>
         </a>
     </div>
 {% endblock %}

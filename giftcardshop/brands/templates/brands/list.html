@@ -26,7 +26,7 @@
                         <div class="col-xl-3 col-md-4 col-sm-6 float-md-right float-sm-none ">
                             <a href="{% url 'brand_detail' brand.slug %}" id="brand_href">
                                 <div class="brand">
-                                    {% thumbnail brand.logo "140x140" crop="100%" as im %}
+                                    {% thumbnail brand.logo "140x140" crop="center" as im %}
                                         <img src="{{ im.url }}">
                                     {% endthumbnail %}
                                     <span class="brand_name">{{ brand.name }}</span>

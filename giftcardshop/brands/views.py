@@ -7,8 +7,8 @@ from django.shortcuts import get_object_or_404
 # Create your views here.
 
 
-class BrandListView(View, LoginRequiredMixin):
-    def get(self, request, category=None):
+class BrandListView(View):
+    def get(self, request, category='all'):
         brands = Brand.objects.all()
         categories = Category.objects.all().order_by('name')
         
@@ -28,7 +28,7 @@ class BrandListView(View, LoginRequiredMixin):
         
         return render(request, 'brands/list.html', context)
 
-class BrandDetailView(View, LoginRequiredMixin):
+class BrandDetailView(View):
     def get(self, request, slug):
         brand = get_object_or_404(Brand, slug=slug)
         categories = Category.objects.filter(brand=brand)

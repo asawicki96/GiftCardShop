@@ -6,7 +6,7 @@ from braces.views import LoginRequiredMixin
 
 # Create your views here.
 
-class CartAddView(View, LoginRequiredMixin):
+class CartAddView(View):
     def post(self, request):
         cart = Cart(request)
         giftcard_id = request.POST.get('giftcard_id', None)
@@ -16,7 +16,7 @@ class CartAddView(View, LoginRequiredMixin):
 
         return redirect('cart_detail')
 
-class CartRemoveView(View, LoginRequiredMixin):
+class CartRemoveView(View):
     def get(self, request, giftcard_id):
         cart = Cart(request)
         giftcard = get_object_or_404(GiftCard, id=giftcard_id)
@@ -24,7 +24,7 @@ class CartRemoveView(View, LoginRequiredMixin):
 
         return redirect('cart_detail')
 
-class CartDetailView(View, LoginRequiredMixin):
+class CartDetailView(View):
     def get(self, request):
         cart = Cart(request)
         if cart.get_len() == 0:

@@ -18,15 +18,16 @@ from django.urls import path, include
 from accounts import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from brands.views import BrandListView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account/', include('accounts.urls')),
+    path('accounts/', include('accounts.urls')),
     path('brands/', include('brands.urls')),
     path('giftcards/', include('giftcards.urls')),
     path('cart/', include('cart.urls')),
     path('orders/', include('orders.urls')),
     path('payments/', include('payments.urls')),
-    path('', auth_views.IndexView.as_view(), name='index')
+    path('', BrandListView.as_view(), name='index')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

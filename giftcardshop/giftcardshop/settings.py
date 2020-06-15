@@ -24,6 +24,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'ku@m@ssg@im+=n)!i8@@ut#owjtkmyl%s33anm2$(e=llhaal('
 
+COMMISSION = 0.05
+
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 
 STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
@@ -42,6 +44,8 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 
 CART_SESSION_ID = 'cart'
+
+LOGIN_REDIRECT_URL = reverse_lazy('index')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -136,7 +140,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_REDIRECT_URL = reverse_lazy('index')
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/

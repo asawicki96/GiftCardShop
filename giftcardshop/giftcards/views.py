@@ -7,7 +7,7 @@ from .models import GiftCard
 from brands.models import Brand
 from cart.cart import Cart
 
-class GiftCardsLisView(View, LoginRequiredMixin):
+class GiftCardsLisView(View):
     def get(self, request, slug=None, ordering=None):
         cart = Cart(request)
     
