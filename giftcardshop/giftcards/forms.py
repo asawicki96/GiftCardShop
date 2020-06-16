@@ -8,6 +8,6 @@ class GiftCardAdminCreateForm(forms.ModelForm):
 
     class Meta:
         model = GiftCard
-        fields = ['value', 'brand']
+        fields = ['value', 'price', 'brand']
 
 

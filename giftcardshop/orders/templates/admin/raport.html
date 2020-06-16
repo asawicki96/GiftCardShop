@@ -1,0 +1,13 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %} Raport {{ block.super }} {% endblock %}
+
+{% block content %}
+    <h3>Fill the form to generate CSV</h3>
+    <form action="." method="POST">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

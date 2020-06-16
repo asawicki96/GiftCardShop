@@ -2,13 +2,18 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from cart.cart import Cart
 from django.views import View
 from braces.views import LoginRequiredMixin
+from brands.models import Brand
 from .models import Order
 from giftcards.models import GiftCard
 from django.core.mail import send_mail
 from django.conf import settings
 from payments.models import Payment
+from django.contrib.admin.views.decorators import staff_member_required
+from .forms import AdminRaportForm
+from .raport import Raport
+import csv 
+from django.http import HttpResponse
 import stripe
-
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.max_network_retries = 2
@@ -90,4 +95,37 @@ class OrderDeleteView(LoginRequiredMixin, View):
         order.delete()
         
         return redirect('index')
+ 
+
+@staff_member_required
+def admin_export_csv_raport(request, start_date=None, end_date=None, brand=None):
+    if request.method == 'GET':
+        form = AdminRaportForm()
+        return render(request, 'admin/raport.html', {'form': form})
+
+    elif request.method == "POST":
+        form = AdminRaportForm(request.POST)
+        if form.is_valid():
+            cleanedData = form.cleaned_data
+            start_date = cleanedData['start_date']
+            end_date = cleanedData['end_date']
+            brand = cleanedData['brand']
+
+        raport = Raport(start_date=start_date, end_date=end_date, brand=brand)
+        raport_data = raport.generate_raport_data()
         
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="Raport: Brand name {}, from date- {}, to date {}"'.format(brand.name, start_date, end_date)
+
+        writer = csv.writer(response)
+        
+        writer.writerow(['Brand name', 'From Date', 'To Date', 'Total price', 'Total value', 'Total sold giftcards', 'Total income'])
+        writer.writerow([raport_data.brand, raport_data.start_date, raport_data.end_date, raport_data.total_price, raport_data.total_value, raport_data.sold_giftcards_number, raport_data.income])
+        return response
+
+
+        
+                
+            
+            
+

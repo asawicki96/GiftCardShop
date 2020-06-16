@@ -34,7 +34,7 @@ class GiftCardAdmin(admin.ModelAdmin):
         if quantity:
             brand = cleanedData.get('brand', None)
             value = cleanedData.get('value', None)
-            price = value * Decimal.from_float(1 - settings.COMMISSION)
+            price = cleanedData.get('price', None)
 
             for i in range(quantity):
                 g_card = GiftCard(
