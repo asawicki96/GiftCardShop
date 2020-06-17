@@ -151,11 +151,11 @@ class RaportFactory(object):
 class RaportCsvExporter(object):
     @staticmethod
     def export(raport_set: RaportSet):
-        if not raports:
+        if not raport_set:
             raise Exception("List of Raport objects required")
         
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="Raport:from_date-{}_to_date-{}"'.format(raports.start_date, raports.end_date)
+        response['Content-Disposition'] = 'attachment; filename="Raport:from_date-{}_to_date-{}"'.format(raport_set.start_date, raport_set.end_date)
         writer = csv.writer(response)
 
         writer.writerow(['Brand name', 'From Date', 'To Date', 'Total price', 'Total value', 'Total sold giftcards', 'Total income'])
@@ -177,8 +177,8 @@ class RaportCsvExporter(object):
                 ' ', 
                 ' ', 
                 raport_set.total_price, 
-                raports_set.total_value, 
-                raports_set.sold_giftcards_number, 
-                raports_set.total_income])
+                raport_set.total_value, 
+                raport_set.sold_giftcards_number, 
+                raport_set.total_income])
         
         return response
