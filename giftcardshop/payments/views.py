@@ -17,7 +17,7 @@ stripe.api_key = 'sk_test_XE7g6ioM7V5xWwhhKa5SbJCD00NzqYPUZD'
 # Create your views here.
 
 
-class CheckoutView(View, LoginRequiredMixin):
+class CheckoutView(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = get_object_or_404(Order, pk=order_id)
         price = int(order.get_total_cost())*100

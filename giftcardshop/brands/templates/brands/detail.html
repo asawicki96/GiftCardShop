@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="brand_detail">
-        {% thumbnail brand.logo "240x240" crop="100%" as im %}
+        {% thumbnail brand.logo "240x240" crop="center" as im %}
             <img src="{{ im.url }}">
         {% endthumbnail %}
         <h2>{{ brand.name }}</h2>

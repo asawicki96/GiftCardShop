@@ -8,6 +8,11 @@ body
     
 }
 
+
+* {
+    outline: none;
+}
+
 #content
 {   
     padding: 1cm;
@@ -58,7 +63,7 @@ a:hover {
 .brand:hover
 {
     transition-duration: 0.5s;
-    background-color: #32CD32;
+    background-color: #006341;
 
 }
 
@@ -127,7 +132,7 @@ span.brand_name
 .giftcard:hover
 {
     transition-duration: 0.5s;
-    background-color: #32CD32;
+    background-color: #006341;
     
 }
 

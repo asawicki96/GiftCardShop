@@ -10,9 +10,10 @@ from django.conf import settings
 from payments.models import Payment
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import AdminRaportForm
-from .raport import Raport
+from . import raport
 import csv 
 from django.http import HttpResponse
+from django.http import HttpResponseForbidden
 import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -33,7 +34,7 @@ class OrderCreate(LoginRequiredMixin, View):
 
             if giftcard.order:
                 cart.remove(request, giftcard)
-                return render(request, 'no_card.html', {'giftcard': giftcard})
+                return render(request, 'order/no_card.html', {'giftcard': giftcard})
 
             giftcard.order = order
             giftcard.save()
@@ -63,7 +64,7 @@ class OrderCreate(LoginRequiredMixin, View):
             auth_password=auth_password
         )
 
-class OrderDetailView(View, LoginRequiredMixin):
+class OrderDetailView(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = get_object_or_404(Order, pk=order_id)
         giftcards = GiftCard.objects.filter(order=order)
@@ -88,13 +89,23 @@ class OrderDetailView(View, LoginRequiredMixin):
 class OrderDeleteView(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = get_object_or_404(Order, pk=order_id)
+        if order.user != request.user:
+            return HttpResponseForbidden()
+
         payments = Payment.objects.filter(order=order)
-        
+        paid = False
+
         for payment in payments:
-            payment.delete()
-        order.delete()
+            if payment.paid:
+                paid = True
+
+        if not paid:
+            for payment in payments:
+                payment.delete()
+
+            order.delete()
         
-        return redirect('index')
+        return redirect('overview')
  
 
 @staff_member_required
@@ -109,18 +120,13 @@ def admin_export_csv_raport(request, start_date=None, end_date=None, brand=None)
             cleanedData = form.cleaned_data
             start_date = cleanedData['start_date']
             end_date = cleanedData['end_date']
-            brand = cleanedData['brand']
+            brands = cleanedData['brands']
 
-        raport = Raport(start_date=start_date, end_date=end_date, brand=brand)
-        raport_data = raport.generate_raport_data()
-        
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="Raport: Brand name {}, from date- {}, to date {}"'.format(brand.name, start_date, end_date)
+        factory = raport.RaportFactory(start_date=start_date, end_date=end_date, brands=brands)
+        raport_set = factory.get_raports()
 
-        writer = csv.writer(response)
-        
-        writer.writerow(['Brand name', 'From Date', 'To Date', 'Total price', 'Total value', 'Total sold giftcards', 'Total income'])
-        writer.writerow([raport_data.brand, raport_data.start_date, raport_data.end_date, raport_data.total_price, raport_data.total_value, raport_data.sold_giftcards_number, raport_data.income])
+        response = raport.RaportCsvExporter.export(raport_set)
+
         return response
 
 

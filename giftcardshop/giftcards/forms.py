@@ -11,3 +11,5 @@ class GiftCardAdminCreateForm(forms.ModelForm):
         fields = ['value', 'price', 'brand']
 
 
+
+

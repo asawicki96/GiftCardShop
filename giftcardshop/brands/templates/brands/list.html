@@ -5,8 +5,12 @@
 
 {% block content %}
     <h1> Our Brands </h1>
-    {% if category %}
-        <h2>{{ category|capfirst }}</h2>
+    {% if not query %}
+        {% if category %}
+            <h2>{{ category|capfirst }}</h2>
+        {% endif %}
+    {% else %}
+            <h2>Query: "{{ query }}" results:</h2>
     {% endif %}
         <div class="row">
             <div class="col-lg-2 col-md-3 col-xs-3 float-sm-none">
@@ -20,7 +24,19 @@
                     </ul>
                 </div>
             </div>
+            
             <div class="col-lg-10 col-md-12 col-sm-12 col-xs-9 float-md-right float-sm-none">
+                <div class="row">
+                    <div class="col">
+                        <form action="." method="GET" style="float: left;">
+                            {{ form }}
+                            <button type="submit" class="btn-success btn-sm" style="display: inline-block;">Search</button>
+                        </form>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
                 <div class="row">
                     {% for brand in page_obj %}
                         <div class="col-xl-3 col-md-4 col-sm-6 float-md-right float-sm-none ">

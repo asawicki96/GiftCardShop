@@ -10,7 +10,7 @@
     </head>
     <body>
         <header>
-            <nav class="navbar navbar-dark navbar-expand-sm" style="background-color: #32CD32;">
+            <nav class="navbar navbar-dark navbar-expand-sm" style="background-color: #006341">
                 <a href="/" class="navbar-brand">GiftCardShop</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu"
                         aria-controls="mainmenu" aria-expand="false" aria-label="Navigation toggler">
@@ -19,16 +19,7 @@
                 <div class="collapse navbar-collapse" id="mainmenu">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'brand_list' 'all' %}">Brands</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
                         </li>
                         {% if user.is_authenticated %}
                             <li class="nav-item dropdown">
