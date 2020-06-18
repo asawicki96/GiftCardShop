@@ -63,15 +63,23 @@ class Raport(object):
         return sold_giftcards
 
     def get_total_value(self, sold_giftcards):
+        if not sold_giftcards:
+            return 0
         return sum(giftcard.value for giftcard in sold_giftcards)
 
     def get_total_price(self, sold_giftcards):
+        if not sold_giftcards:
+            return 0
         return sum(giftcard.price for giftcard in sold_giftcards)
 
     def get_sold_giftcards_number(self, sold_giftcards):
+        if not sold_giftcards:
+            return 0
         return len(sold_giftcards)
 
     def get_income(self, total_price):
+        if total_price == 0:
+            return 0
         return round((total_price * Decimal.from_float(settings.COMMISSION)), 2)
 
 class RaportSet(object):
