@@ -43,7 +43,8 @@
                                         <img src="{{ im.url }}">
                                     {% endthumbnail %}
                                 </a>
-                                <span class="brand_name">{{ giftcard.value }} PLN</span>
+                                <span class="brand_name">Value: {{ giftcard.value }} PLN</span>
+                                <span class="brand_name">Price: {{ giftcard.price }} PLN</span>
                                 <form action="{% url 'cart_add' %}" method="POST">
                                     <input type="hidden" name="giftcard_id" value="{{ giftcard.id }}">
                                     {% csrf_token %}

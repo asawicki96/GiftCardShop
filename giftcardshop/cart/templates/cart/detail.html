@@ -10,7 +10,7 @@
                 <table class="table table-striped" id="cart_table">
                     <thead class="thead" style="background-color: #006341;">
                         <tr>
-                            <th scope="col">Brand</th>
+                            <th scope="col">Giftcard</th>
                             <th scope="col">Price</th>
                             <th scope="col"></th>
                         </tr>
@@ -22,12 +22,12 @@
                                     <td>
                                         <b>
                                             <a class="brand_name" href="{{ giftcard.get_absolute_url }}">
-                                            {{ giftcard.brand.name }}
+                                            {{ giftcard }}
                                             </a>
                                         </b>
                                     </td>
                                     <td>
-                                        <b>{{ giftcard.value }} PLN </b>
+                                        <b>{{ giftcard.price }} PLN </b>
                                     </td>
                                     <td>
                                         <a href="{% url 'cart_remove' giftcard.id %}">

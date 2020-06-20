@@ -32,13 +32,12 @@ class Raport(object):
         
         return self
 
-    def get_orders(self, start_date, end_date, brand):
+    def get_orders(self, start_date, end_date):
         orders = Order.objects.filter(created__gte=start_date).filter(created__lte=end_date)
       
         return orders
 
     def get_paid_orders(self, orders):
-        print(orders)
         if not orders:
             return None
 
