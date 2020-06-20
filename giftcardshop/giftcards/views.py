@@ -7,13 +7,14 @@ from .models import GiftCard
 from brands.models import Brand
 from cart.cart import Cart
 
-class GiftCardsLisView(View, LoginRequiredMixin):
+
+class GiftCardsLisView(View):
     def get(self, request, slug=None, ordering=None):
         cart = Cart(request)
     
         page = request.GET.get('page', None)
 
-        if ordering == 'value':
+        if ordering == 'price_descending':
             ordering = '-value'
         else:
             ordering = 'value'

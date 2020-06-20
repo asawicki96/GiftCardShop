@@ -7,11 +7,12 @@
         <title>{% block title %} Homepage {% endblock %}</title>
         <link href='{% static "css/bootstrap.min.css" %}' rel='stylesheet'>
         <link href='{% static "css/base.css" %}' rel='stylesheet'>
+        <style>@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');</style>
     </head>
     <body>
         <header>
-            <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
-                <a href="/" class="navbar-brand">GiftCardShop</a>
+            <nav class="navbar navbar-dark navbar-expand-sm" style="background-color: #006341">
+                <a href="/" class="navbar-brand" style="font-family: 'Lobster', cursive; font-size:23px" >GiftCardShop</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu"
                         aria-controls="mainmenu" aria-expand="false" aria-label="Navigation toggler">
                     <span class="navbar-toggler-icon" ></span>
@@ -19,16 +20,7 @@
                 <div class="collapse navbar-collapse" id="mainmenu">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'brand_list' 'all' %}">Brands</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
                         </li>
                         {% if user.is_authenticated %}
                             <li class="nav-item dropdown">
@@ -44,7 +36,7 @@
                         {% endif %}
                     </ul>
                 
-                    <ul class="navbar-nav bg-dark navbar-dark">
+                    <ul class="navbar-nav navbar-dark">
                         {% if user.is_authenticated %}
                             <li class="nav-item mr-1">
                                 <a class="nav-link text-light" href="{% url 'cart_detail' %}">Your cart</a>
@@ -53,11 +45,11 @@
                                 <a class="nav-link text-light" href="{% url 'logout' %}" >Logout</a>
                             </li>   
                         {% else %}
+                            <li class="nav-item mr-1">
+                                <a class="nav-link text-light" href="{% url 'cart_detail' %}">Your cart</a>
+                            </li>
                             <li class="nav-item mr-3">
                                 <a class="nav-link text-light" href="{% url 'login' %}" >Login</a>
-                            </li>
-                            <li class="nav-item mr-1">
-                                <a class="nav-link text-light" href="{% url 'register' %}" >Register</a>
                             </li>
                         {% endif %}
                     </ul>
@@ -68,15 +60,6 @@
             <div class="row">
             <div class="col-lg-12" id="content">
                 {% block content %}
-                    <span class="content-header"><h1>Welcome to!</h1></span>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In mollis, metus sed egestas pulvinar, nibh dui porttitor quam, vitae lobortis urna ligula id lectus. Praesent varius ante mi, sed molestie urna aliquet id. Fusce tincidunt vulputate ipsum at ultricies. Morbi tristique, tortor eget bibendum ornare, elit sem maximus urna, vel posuere odio velit vel mauris. Aenean malesuada porttitor quam sit amet malesuada. Duis diam augue, rutrum sed ligula ut, vehicula finibus nibh. Fusce tortor ipsum, ultrices vel nisl sed, laoreet cursus urna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse sed diam magna. Fusce gravida iaculis orci.
-                        Pellentesque non tortor quis mi bibendum pharetra vitae ac velit. Praesent pharetra lectus turpis, ac lobortis lectus feugiat blandit. Cras nulla est, facilisis eu pulvinar a, faucibus sit amet leo. Nullam ultricies magna velit, a tincidunt mi dictum non. Nullam sit amet blandit ex, sit amet posuere erat. Nunc lacus dolor, commodo eu varius in, suscipit et est. Nunc lacus risus, cursus et eros sit amet, commodo ullamcorper ligula. Nam sit amet mattis lacus. Quisque ut tincidunt neque, a finibus dui. Sed sit amet eleifend lectus, eu tincidunt nulla. Morbi pharetra tristique erat, non cursus orci tristique suscipit. Cras sit amet suscipit augue.
-                        Cras velit nunc, gravida a metus at, hendrerit volutpat ipsum. Duis convallis lorem mattis, porta felis dapibus, dignissim lorem. Donec placerat magna quam, quis imperdiet dui accumsan in. Donec pulvinar elit sit amet leo dictum ultricies. Vivamus et fermentum tellus. Nullam dignissim velit id dapibus aliquam. Sed quis nunc accumsan, sodales nisl eget, efficitur elit. Duis eget risus in lectus ultrices ornare. Sed lobortis, dolor non consectetur posuere, libero mi dapibus mi, sed vulputate ligula diam sit amet est. Mauris massa lacus, vestibulum at convallis nec, vulputate id turpis. Etiam aliquam euismod mauris, sit amet congue odio aliquam id. Donec vel nibh erat.
-                        Quisque in velit eleifend, suscipit metus facilisis, dignissim lectus. Nulla in consequat metus. Phasellus at nisi eget ante rhoncus suscipit sit amet vitae neque. Nulla commodo eros sodales, malesuada lacus sit amet, sollicitudin felis. Donec luctus neque sed libero egestas, sit amet auctor est tincidunt. Nullam tempor nec neque id feugiat. Nam ac nibh sem. Duis dignissim tortor id sollicitudin egestas. Maecenas nec leo convallis, dignissim ligula eu, feugiat magna. Nunc suscipit at magna non suscipit. Suspendisse ut ante faucibus, aliquet velit eget, ullamcorper ex. Integer ipsum enim, posuere nec lacinia et, rutrum ut magna.
-                        Pellentesque et elit quis tellus euismod pharetra. Nulla id dolor mi. Donec luctus ex ut velit facilisis, at imperdiet velit vestibulum. Donec cursus turpis sed ex semper dictum at ac eros. Sed feugiat lobortis mauris, at volutpat nisl consequat id. Donec semper, arcu sed porta tristique, ipsum mauris ullamcorper arcu, vel molestie erat libero non erat. Quisque et tellus quis nulla tincidunt cursus. Integer sit amet sagittis lacus, nec iaculis eros. Curabitur rhoncus, ex non suscipit tincidunt, sapien urna varius eros, dictum pellentesque sapien dui ut quam. In fringilla venenatis sem eu maximus. Nulla nec nisi commodo, vehicula enim at, luctus magna. Phasellus maximus egestas ex ornare placerat. Phasellus consequat, tortor non vestibulum ultricies, dolor sapien ultricies mauris, porttitor efficitur ligula nunc suscipit orci. Quisque tincidunt sit amet nisi fringilla molestie.
-                        Fusce vehicula scelerisque enim, in porta neque vulputate eu. Pellentesque eu commodo diam. Aliquam turpis quam, euismod a feugiat mollis, laoreet sed erat. Morbi et scelerisque sem, ac euismod justo. Vestibulum nec erat velit. Nulla luctus enim eu tellus posuere sagittis sed eget mi. Pellentesque elit enim, molestie ut nunc id, varius dictum leo. Proin eleifend augue sit amet lacus tempus, sed aliquam justo volutpat. Donec in tempus enim, non posuere ipsum. Sed id purus sed enim euismod viverra. Nunc lacinia, enim in lobortis venenatis, tellus turpis convallis turpis, eget pharetra ex nunc a felis. Suspendisse eget fringilla metus. Mauris sapien odio, scelerisque a mi in, varius condimentum metus. In at malesuada lectus. Sed ornare, lectus eu facilisis gravida, diam neque pretium nisi, sit amet ullamcorper odio risus vitae massa. Sed eu feugiat ex, et fermentum lacus. 
-                    </p>
                 {% endblock %}
             </div>
             </div>

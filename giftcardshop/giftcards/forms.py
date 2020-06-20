@@ -1,25 +1,15 @@
 from django import forms
 from .models import GiftCard
+from django.conf import settings
+from decimal import Decimal
 
 class GiftCardAdminCreateForm(forms.ModelForm):
     quantity = forms.IntegerField(initial=1)
 
     class Meta:
         model = GiftCard
-        fields = '__all__'
+        fields = ['value', 'price', 'brand']
 
-    def save(self, commit=True):
-        cleanedData = self.cleaned_data
-        quantity = cleanedData.get('quantity', None)
 
-        for i in range(quantity):
-            g_card = GiftCard.objects.create(
-                brand = cleanedData.get('brand', None),
-                value = cleanedData.get('value', None),
-                price = cleanedData.get('price', None)
-                )
-            
-            
-        return super().save(commit=commit)
-        
+
 

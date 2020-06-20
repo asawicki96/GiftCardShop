@@ -7,25 +7,26 @@ from django.urls import reverse_lazy
 from braces.views import LoginRequiredMixin
 from .forms import UserEditForm
 from orders.models import Order
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 
-class AccountRegisterView(CreateView):
-    template_name = 'registration/register.html'
-    form_class = UserCreationForm
-    success_url = reverse_lazy('index')
-
-    def form_valid(self, form):
-        result = super().form_valid(form)
-        user = form.save()
-        login(self.request, user)
-        return result
-
-class IndexView(View):
+class AccountRegisterView(View):
     def get(self, request):
-        return render(request, 'base.html')
+        form = UserCreationForm()
+        return render(request, 'registration/register.html', {'form': form})
+
+    def post(self, request):
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            login(self.request, user)
+            return redirect('index')
         
-class AccountEditView(View, LoginRequiredMixin):
+        return render(request, 'registration/register.html', {'form': form})
+    
+class AccountEditView(LoginRequiredMixin, View):
     def get(self, request):
         form = UserEditForm(instance=request.user)
         return render(request, 'registration/edit.html', {'form': form})
@@ -37,7 +38,7 @@ class AccountEditView(View, LoginRequiredMixin):
             form.save()
         return redirect('index')
 
-class ProfileOverwievView(View, LoginRequiredMixin):
+class ProfileOverwievView(LoginRequiredMixin, View):
     def get(self, request):
         user = request.user
         orders = Order.objects.filter(user=user)

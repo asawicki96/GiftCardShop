@@ -16,7 +16,7 @@ class Order(models.Model):
 
     def get_total_cost(self):
         items = self.giftcard_set
-        return sum(item.value for item in items.all())
+        return sum(item.price for item in items.all())
 
     get_total_cost.short_description = 'Total'
     

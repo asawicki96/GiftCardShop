@@ -1,11 +1,15 @@
 body
 {
     margin: 0;
-    background-image: linear-gradient(to bottom right,#7CFC00, #00CED1, #7CFC00);
+    background-color: #F0FFFF;
     background-position: bottom;
     background-size: cover;
     min-height: 100vh;
     
+}
+
+* {
+    outline: none;
 }
 
 #content
@@ -15,19 +19,12 @@ body
     text-align: center;
 }
 
-#content::after
-{   
-    content: "";
-    position: absolute;
-    background-color: white;
-    margin: 0.5cm auto auto auto;
-    opacity: 0.7;
-    border-radius: 0.5cm;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
+th {
+    color:white;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 .form {
@@ -35,6 +32,10 @@ body
     text-align: center;
     width: 100%;
     padding: 10px;
+}
+
+#register_form span.helptext{
+    display:none;
 }
 
 .brand
@@ -61,7 +62,12 @@ body
 .brand:hover
 {
     transition-duration: 0.5s;
-    background-color: white;
+    background-color: #006341;
+
+}
+
+.brand:hover span.brand_name{
+    color:white;
 }
 
 .categories
@@ -80,7 +86,7 @@ body
 }
 .categories a:hover
 {
-    color: blue;
+    color: #008000;
 }
 
 .pagination
@@ -94,16 +100,17 @@ span.brand_name
 {   
     display: block;
     font-weight: 800;
-    margin-top: 30px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     text-decoration: none;
     color: black;
 }
 
+
 .brand_detail h3
 {
     margin-top: 20px;
-    color: blue;
+    color: #008000;
 }
 
 .giftcard
@@ -124,7 +131,8 @@ span.brand_name
 .giftcard:hover
 {
     transition-duration: 0.5s;
-    background-color: white;
+    background-color: #006341;
+    
 }
 
 
@@ -134,8 +142,8 @@ span.brand_name
 }
   
 .giftcard button:hover {
-    background-color: #303030;
-    color: white;
+    background-color: white;
+    color: #008000;
 }
 
 .giftcard button
@@ -146,6 +154,7 @@ span.brand_name
     padding: 10px;
     color: black;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    font-weight: 800;
 }
 
 #no_giftcards
@@ -176,7 +185,7 @@ span.brand_name
 .similar_brands a:hover
 {
     text-decoration: none;
-    color: blue;
+    color: #008000;
 }
 
 .ordering
@@ -194,7 +203,7 @@ span.brand_name
 .ordering .ordering_button:hover
 {
     text-decoration: none;
-    color:blue;
+    color:#008000;
 }
 
 #cart_table
@@ -216,7 +225,7 @@ span.brand_name
 
 #cart_table .subtotal
 {
-    border-top: #303030 solid;
+    border-top: #008000 solid;
     color: red;
 }
 

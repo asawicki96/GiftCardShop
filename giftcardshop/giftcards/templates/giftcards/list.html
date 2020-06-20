@@ -39,11 +39,12 @@
                         <div class="col-xl-3 col-md-4 col-sm-6 float-md-right float-sm-none ">
                             <div class="giftcard">
                                 <a href="{% url 'brand_detail' brand.slug %}" id="brand_href">
-                                    {% thumbnail brand.logo "140x140" crop="100%" as im %}
+                                    {% thumbnail brand.logo "140x140" crop="center" as im %}
                                         <img src="{{ im.url }}">
                                     {% endthumbnail %}
                                 </a>
-                                <span class="brand_name">{{ giftcard.value }} PLN</span>
+                                <span class="brand_name">Value: {{ giftcard.value }} PLN</span>
+                                <span class="brand_name">Price: {{ giftcard.price }} PLN</span>
                                 <form action="{% url 'cart_add' %}" method="POST">
                                     <input type="hidden" name="giftcard_id" value="{{ giftcard.id }}">
                                     {% csrf_token %}
@@ -51,24 +52,29 @@
                                 </form>
                             </div> 
                         </div>
+    
                     {% endfor %}   
-                <div class="row">
-                    <div class="pagination">
-                        <span class="step-links">
-                            {% if page_obj.has_previous %}
-                                <a href="?page=1">&laquo; first</a>
-                                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                            {% endif %}
-                            <span class="current">
-                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                
+                    <div class="col-12">
+                        <div class="row-12">
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page=1">&laquo; first</a>
+                                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                                {% endif %}
+                                <span class="current">
+                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                </span>
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                {% endif %}
                             </span>
-                            {% if page_obj.has_next %}
-                                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                            {% endif %}
-                        </span>
+                        </div>
+                        </div>
                     </div>
-                </div>
+                
             {% else %}
                 <div class="row" id="no_giftcards">
                     <h1>We have no giftcards for You here</h1>

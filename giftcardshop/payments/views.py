@@ -17,7 +17,7 @@ stripe.api_key = 'sk_test_XE7g6ioM7V5xWwhhKa5SbJCD00NzqYPUZD'
 # Create your views here.
 
 
-class CheckoutView(View, LoginRequiredMixin):
+class CheckoutView(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = get_object_or_404(Order, pk=order_id)
         price = int(order.get_total_cost())*100
@@ -57,9 +57,8 @@ def send_codes(order):
     from_email = settings.WEBSITE_EMAIL
     recipient_list = [order.user.email]
 
-    message = '''We have received your payment, thank You for shopping in our store.
-    Your giftcards codes:\n
-            '''
+    message = "We have received your payment, thank You for shopping in our store. \nYour giftcards codes:\n"
+            
 
     for giftcard in giftcards:
         message += (str(giftcard) + ' ' + 'Code:' + str(giftcard.uuid) + '\n')
