@@ -1,10 +1,11 @@
 # GiftCardShop
 
-Simple application of the online store, designed for selling giftcards of famous brands, based on **Django 3**. 
+Simple application of the online store, designed for selling giftcards of famous brands, based on **Django 3** and **Bootstrap 4**. 
 An authorized user can add multiple giftcards with unique secret codes generated using uuid4. He can also edit and remove them.
 An unauthenticated user can view the brands and associated gift cards, and add them to the cart. To make order user has to authenticate.
 Since giftcard has reference to an order it's no longer available to buy. 
 Payments are handled by **Stripe.com**. User can pay only by card. 
+Authorized user can make csv raport containing totals in choosen period of time for one or few brands.
 
 Steps to setup application:
 
