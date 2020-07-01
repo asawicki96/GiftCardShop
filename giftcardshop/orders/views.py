@@ -15,6 +15,8 @@ import csv
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 import stripe
+from .tasks import send_confirmation_mail
+import json
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.max_network_retries = 2
@@ -40,29 +42,29 @@ class OrderCreate(LoginRequiredMixin, View):
             giftcard.save()
             
         cart.clear(request)
-        self.send_mail(order)
+        send_confirmation_mail.delay(json.dumps(order.id))
 
         return redirect('detail', order.id)
 
 
-    def send_mail(self, order):
-        subject = "GiftCardShop order: " + str(order.id) + "."
-        from_email = settings.WEBSITE_EMAIL
-        recipient_list = [order.user.email]
-        message = ''' Thank You for Your order. Please submit Your payment to get your giftcard codes.'''
-        fail_silently = False
-        auth_user = settings.EMAIL_HOST_USER
-        auth_password = settings.EMAIL_HOST_PASSWORD
-        
-        send_mail(
-            subject=subject,
-            from_email=from_email,
-            recipient_list=recipient_list,
-            message=message,
-            fail_silently=fail_silently,
-            auth_user=auth_user,
-            auth_password=auth_password
-        )
+    #def send_mail(self, order):
+    #    subject = "GiftCardShop order: " + str(order.id) + "."
+    #    from_email = settings.WEBSITE_EMAIL
+    #    recipient_list = [order.user.email]
+    #    message = ''' Thank You for Your order. Please submit Your payment to get your giftcard codes.'''
+    #    fail_silently = False
+    #    auth_user = settings.EMAIL_HOST_USER
+    #    auth_password = settings.EMAIL_HOST_PASSWORD
+    #    
+    #    send_mail(
+    #        subject=subject,
+    #        from_email=from_email,
+    #        recipient_list=recipient_list,
+    #        message=message,
+    #        fail_silently=fail_silently,
+    #        auth_user=auth_user,
+    #        auth_password=auth_password
+    #    )
 
 class OrderDetailView(LoginRequiredMixin, View):
     def get(self, request, order_id):
