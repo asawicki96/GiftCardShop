@@ -50,7 +50,9 @@ LOGIN_REDIRECT_URL = reverse_lazy('index')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'c04ad4173b4b.ngrok.io',
+    '127.0.0.1']
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Application definition
