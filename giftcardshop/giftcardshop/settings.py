@@ -51,7 +51,7 @@ LOGIN_REDIRECT_URL = reverse_lazy('index')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'c04ad4173b4b.ngrok.io',
+    'fceab38326d9.ngrok.io',
     '127.0.0.1']
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'cart',
     'payments',
     'stripe',
+    'django_elasticsearch_dsl',
     'sorl.thumbnail',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -109,18 +110,24 @@ WSGI_APPLICATION = 'giftcardshop.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': os.getenv("DB_NAME", default = "giftcards"),
-    #     'USER': os.getenv("DB_USER", default = "postgres"),
-    #     'PASSWORD': os.getenv("DB_PASSWORD", default = "postgres"),
-    #     'HOST': os.getenv("DB_HOST", default = "db"),
-    #     'PORT': os.getenv("DB_PORT", default = 5432),
-    # },
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': os.getenv("DB_NAME", default = "giftcards"),
+         'USER': os.getenv("DB_USER", default = "postgres"),
+         'PASSWORD': os.getenv("DB_PASSWORD", default = "postgres"),
+         'HOST': os.getenv("DB_HOST", default = "db"),
+         'PORT': os.getenv("DB_PORT", default = 5432),
+     },
+    #'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #}
+}
+
+ELASTICSEARCH_DSL = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'hosts': 'elasticsearch:9200'
+    },
 }
 
 REDIS_HOST = os.getenv('REDIS_HOST')

@@ -8,7 +8,6 @@ pylint = "*"
 
 [packages]
 django = "*"
-django-taggit = "*"
 pillow = "*"
 django-braces = "*"
 sorl-thumbnail = "*"
@@ -16,6 +15,9 @@ psycopg2-binary = "*"
 stripe = "*"
 celery = "*"
 redis = "*"
+six = "*"
+django-elasticsearch-dsl = "*"
+elasticsearch-dsl = "*"
 
 [requires]
 python_version = "3.8"

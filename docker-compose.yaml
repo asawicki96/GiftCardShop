@@ -6,10 +6,52 @@ services:
         - POSTGRES_DB=giftcards
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=postgres
+      ports:
+        - "6543:5432"
+      container_name: db
+
+  elasticsearch:
+    environment: 
+      - discovery.type=single-node
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://elasticsearch:9200"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    container_name: elasticsearch
+    
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    
+  worker:
+    build: .
+    command: bash -c "cd giftcardshop && celery -A giftcardshop worker -l info"
+    env_file:
+      - ".env"
+    depends_on: 
+      - db
+      - redis
+    container_name: worker
+    
+    
   web:
     build: .
-    command: bash -c "python ./giftcardshop/manage.py migrate && python ./giftcardshop/manage.py runserver 0.0.0.0:8000"
+    restart: on-failure
+    command: bash -c "python ./giftcardshop/manage.py migrate && python ./giftcardshop/manage.py search_index --rebuild -f && python ./giftcardshop/manage.py runserver 0.0.0.0:8000 "
     ports:
       - "8000:8000"
     depends_on:
       - db
+      - elasticsearch
+    links:
+      - db
+      - elasticsearch
+
+    container_name: web
+  
+  

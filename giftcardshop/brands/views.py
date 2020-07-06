@@ -5,6 +5,7 @@ from .models import Brand, Category
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from .forms import SearchForm
+from .documents import BrandDocument
 # Create your views here.
 
 
@@ -18,7 +19,9 @@ class BrandListView(View):
             if form.is_valid():
                 cleanedData = form.cleaned_data
                 query = cleanedData['query']
-                brands = Brand.objects.filter(name__icontains=query)
+                brands = BrandDocument.search().filter(
+                    'multi_match', query=query, 
+                    fields=['name', 'slug', 'description']).to_queryset()
         else:
             brands = Brand.objects.all()
 
@@ -54,3 +57,6 @@ class BrandDetailView(View):
 
         return render(request, 'brands/detail.html', context)
         
+
+
+

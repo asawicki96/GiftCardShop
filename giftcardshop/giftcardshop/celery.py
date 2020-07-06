@@ -7,9 +7,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'giftcardshop.settings')
 
 app = Celery('giftcardshop')
 
-app.config_from_object('django.conf:settings')
-app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
-app.conf.broker_url = 'redis://localhost:6379/0'
+app.config_from_object('django.conf:settings', namespace='CELERY')
+app.autodiscover_tasks()
+app.conf.broker_url = 'redis://redis:6379/0'
 
 app.conf.beat_schedule = {
     #'update_everyday': {

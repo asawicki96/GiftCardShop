@@ -1,5 +1,4 @@
 from django.db import models
-from taggit.managers import TaggableManager
 from base64 import b64encode
 import base64
 from django.utils.safestring import mark_safe
