@@ -30,7 +30,7 @@ services:
     
   worker:
     build: .
-    command: bash -c "cd giftcardshop && celery -A giftcardshop worker -l info"
+    command: bash -c "cd giftcardshop && celery -A giftcardshop worker -B -l info"
     env_file:
       - ".env"
     depends_on: 

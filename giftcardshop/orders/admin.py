@@ -17,6 +17,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = [
         'created',
         'get_total_cost',
+        'outdated'
         ]
 
 
