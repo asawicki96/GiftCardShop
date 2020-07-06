@@ -12,3 +12,4 @@ celery==4.4.6
 django-elasticsearch-dsl==7.1.1
 redis==3.5.3
 stripe==2.48.0
+
