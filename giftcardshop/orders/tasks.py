@@ -5,6 +5,7 @@ from giftcards.models import GiftCard
 from .models import Order
 from payments.models import Payment
 from django.shortcuts import get_object_or_404
+import datetime
 
 @task
 def send_codes(order_id):
@@ -61,5 +62,28 @@ def send_confirmation_mail(order_id):
 def make_unpaid_orders_outdated():
     #WIP
     #TO DO: filter unpaid orders older than timedelta and set outdated True
-    pass
+    timedelta = datetime.timedelta(days=3)
+    min_creation_date = datetime.datetime.now() - timedelta
     
+    orders = Order.objects.filter(created__lte=min_creation_date).filter(outdated=False)
+
+    if not orders:
+        return None
+
+    for order in orders:
+        payment = Payment.objects.filter(order=order).filter(paid=True)
+        
+        if not payment:
+            order.outdated = True
+            order.save()
+            restore_giftcard(order)
+
+  
+def restore_giftcard(order):
+    giftcards = GiftCard.objects.filter(order=order)
+    if not giftcards:
+        raise Exception("No gifctards related to order:{} found".format(order.id))
+    
+    for giftcard in giftcards:
+        giftcard.order = None
+        giftcard.save()
