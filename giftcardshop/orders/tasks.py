@@ -77,7 +77,6 @@ def make_unpaid_orders_outdated():
             order.outdated = True
             order.save()
             restore_giftcard(order)
-
   
 def restore_giftcard(order):
     giftcards = GiftCard.objects.filter(order=order)
@@ -85,5 +84,6 @@ def restore_giftcard(order):
         raise Exception("No gifctards related to order:{} found".format(order.id))
     
     for giftcard in giftcards:
-        giftcard.order = None
-        giftcard.save()
+        g_card = get_object_or_404(GiftCard, pk=giftcard.id)
+        g_card.order = None
+        g_card.save()

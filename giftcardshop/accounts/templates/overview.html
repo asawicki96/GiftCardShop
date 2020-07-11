@@ -28,7 +28,7 @@
                                 <b><a href="{% url 'detail' order.id %}">Details</b>
                             </td>
                             <td>
-                                <b>{{ order.price }} PLN </b>
+                                <b>{{ order.get_total_cost }} PLN </b>
                             </td>
                             <td>
                                 <b>{{ order.created }}</b>

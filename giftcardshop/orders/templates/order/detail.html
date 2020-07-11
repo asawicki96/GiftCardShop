@@ -34,7 +34,7 @@
                 </tbody>
             </table>
             <div class="row justify-content-center">
-                    {% if not paid %}
+                    {% if not paid and not order.outdated %}
                     <div class="col-3">
                         <a href="{% url 'order_delete' order.id %}">
                             <button type="button" class="btn btn-success btn-lg">Abort</button>
@@ -46,8 +46,10 @@
                         </a>
                     </div>
 
-                    {% else %}
+                    {% elif paid %}
                         <b><h4>This order has been paid</h4></b>
+                    {% elif order.outdated %}
+                        <b><h4>This order is deprecated</h4></b>
                     {% endif %}
                 </div>
             </div>
