@@ -20,24 +20,44 @@ class Raport(object):
         self.sold_giftcards_number = None
         self.income = None
 
-    
-    def generate_raport_data(self):
-        self.orders = self.get_orders(self.start_date, self.end_date, self.brand)
-        self.paid_orders = self.get_paid_orders(self.orders)
-        self.sold_giftcards = self.get_sold_giftcards(self.paid_orders, self.brand)
-        self.total_value = self.get_total_value(self.sold_giftcards)
-        self.total_price = self.get_total_price(self.sold_giftcards)
-        self.sold_giftcards_number = self.get_sold_giftcards_number(self.sold_giftcards)
-        self.income = self.get_income(self.total_price)
-        
-        return self
+    @staticmethod
+    def generate_raport_data(start_date, end_date, brand):
+        # Initialising Raport instance 
+        raport = Raport(start_date, end_date, brand)
 
-    def get_orders(self, start_date, end_date):
+        # Filtering orders by creation date 
+        raport.orders = Raport.get_orders(raport.start_date, raport.end_date)
+
+        # Filtering orders by related Payment objects paid status
+        raport.paid_orders = Raport.get_paid_orders(raport.orders)
+
+        # Filtering GiftCard object by Brand
+        raport.sold_giftcards = Raport.get_sold_giftcards(raport.paid_orders, raport.brand)
+
+        # Calculating total value
+        raport.total_value = Raport.get_total_value(raport.sold_giftcards)
+
+        # Calculating total price
+        raport.total_price = Raport.get_total_price(raport.sold_giftcards)
+
+        # Counting sold giftcards
+        raport.sold_giftcards_number = Raport.get_sold_giftcards_number(raport.sold_giftcards)
+
+        #Calculating income
+        raport.income = Raport.get_income(raport.total_price)
+        
+        return raport
+
+    @staticmethod
+    def get_orders(start_date, end_date):
         orders = Order.objects.filter(created__gte=start_date).filter(created__lte=end_date)
+        if not orders:
+            return None
       
         return orders
 
-    def get_paid_orders(self, orders):
+    @staticmethod
+    def get_paid_orders(orders):
         if not orders:
             return None
 
@@ -48,7 +68,8 @@ class Raport(object):
         
         return orders
 
-    def get_sold_giftcards(self, paid_orders, brand):
+    @staticmethod
+    def get_sold_giftcards(paid_orders, brand):
         if not paid_orders:
             return None
 
@@ -61,25 +82,31 @@ class Raport(object):
 
         return sold_giftcards
 
-    def get_total_value(self, sold_giftcards):
+    @staticmethod
+    def get_total_value(sold_giftcards):
         if not sold_giftcards:
             return 0
         return sum(giftcard.value for giftcard in sold_giftcards)
 
-    def get_total_price(self, sold_giftcards):
+    @staticmethod
+    def get_total_price(sold_giftcards):
         if not sold_giftcards:
             return 0
         return sum(giftcard.price for giftcard in sold_giftcards)
 
-    def get_sold_giftcards_number(self, sold_giftcards):
+    @staticmethod
+    def get_sold_giftcards_number(sold_giftcards):
         if not sold_giftcards:
             return 0
         return len(sold_giftcards)
 
-    def get_income(self, total_price):
+    @staticmethod
+    def get_income(total_price):
         if total_price == 0:
             return 0
         return round((total_price * Decimal.from_float(settings.COMMISSION)), 2)
+
+
 
 class RaportSet(object):
     def __init__(
@@ -88,59 +115,27 @@ class RaportSet(object):
         start_date, 
         end_date, 
         raports, 
-        total_value, 
-        total_price, 
-        sold_giftcards_number, 
-        total_income):
+        total_value=None, 
+        total_price=None, 
+        sold_giftcards_number=None, 
+        total_income=None):
 
         self.brands = brands
         self.start_date = start_date
         self.end_date = end_date
-
         self.raports = raports
+
         self.total_value = total_value
         self.total_price = total_price
         self.sold_giftcards_number = sold_giftcards_number
         self.total_income = total_income
 
+    def calculate_totals(self):
+        self.total_value = self.get_total_value(self.raports)
+        self.total_price = self.get_total_price(self.raports)
+        self.sold_giftcards_number = self.get_sold_giftcards_number(self.raports)
+        self.total_income = self.get_income(self.raports)
 
-class RaportFactory(object):
-    def __init__(self, brands, start_date, end_date):
-        self.brands = brands
-        self.start_date = start_date
-        self.end_date = end_date
-
-    def get_raports(self):
-        raports = self.create_raports(self.brands, self.start_date, self.end_date)
-
-        raport_set = RaportSet(
-            brands = self.brands,
-            start_date = self.start_date,
-            end_date = self.end_date,
-            raports = raports,
-            total_value = self.get_total_value(raports),
-            total_price = self.get_total_price(raports),
-            sold_giftcards_number = self.get_sold_giftcards_number(raports),
-            total_income = self.get_income(raports)
-        )
-        
-        return raport_set
-
-    def create_raports(self, brands, start_date, end_date):
-        if not brands:
-            return None
-        
-        raports = []
-
-        for brand in brands:
-            raport = Raport(
-                brand=brand, 
-                start_date=start_date, 
-                end_date=end_date)
-
-            raports.append(raport.generate_raport_data())
-            
-        return raports
 
     def get_total_price(self, raports):
         return sum(raport.total_price for raport in raports)
@@ -153,13 +148,50 @@ class RaportFactory(object):
 
     def get_income(self, raports):
         return sum(raport.income for raport in raports)
+
+
+class RaportFactory(object):
+    def __init__(self, brands, start_date, end_date):
+        self.brands = brands
+        self.start_date = start_date
+        self.end_date = end_date
+
+    @staticmethod
+    def get_raport_set(brands, start_date, end_date):
+        raports = RaportFactory.create_raports(brands, start_date, end_date)
+
+        raport_set = RaportSet(
+            brands = brands,
+            start_date = start_date,
+            end_date = end_date,
+            raports = raports
+        )
+
+        raport_set.calculate_totals(raport_set.raports)
+
+        return raport_set
+
+    @staticmethod
+    def create_raports(brands, start_date, end_date):
+        if not brands:
+            return None
+        
+        raports = []
+
+        for brand in brands:
+            raports.append(Raport.generate_raport_data(brand, start_date, end_date))
+            
+        return raports
+
             
 
 class RaportCsvExporter(object):
     @staticmethod
     def export(raport_set: RaportSet):
         if not raport_set:
-            raise Exception("List of Raport objects required")
+            raise Exception("RaportSet object required")
+        if not isinstance(raport_set, RaportSet):
+            raise Exception("raport_set parameter must be an RaportSet instance")
         
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="Raport:from_date-{}_to_date-{}"'.format(raport_set.start_date, raport_set.end_date)

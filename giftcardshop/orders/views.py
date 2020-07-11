@@ -47,25 +47,6 @@ class OrderCreate(LoginRequiredMixin, View):
         return redirect('detail', order.id)
 
 
-    #def send_mail(self, order):
-    #    subject = "GiftCardShop order: " + str(order.id) + "."
-    #    from_email = settings.WEBSITE_EMAIL
-    #    recipient_list = [order.user.email]
-    #    message = ''' Thank You for Your order. Please submit Your payment to get your giftcard codes.'''
-    #    fail_silently = False
-    #    auth_user = settings.EMAIL_HOST_USER
-    #    auth_password = settings.EMAIL_HOST_PASSWORD
-    #    
-    #    send_mail(
-    #        subject=subject,
-    #        from_email=from_email,
-    #        recipient_list=recipient_list,
-    #        message=message,
-    #        fail_silently=fail_silently,
-    #        auth_user=auth_user,
-    #        auth_password=auth_password
-    #    )
-
 class OrderDetailView(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = get_object_or_404(Order, pk=order_id)
