@@ -110,23 +110,23 @@ WSGI_APPLICATION = 'giftcardshop.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-     #'default': {
-     #    'ENGINE': 'django.db.backends.postgresql',
-     #    'NAME': os.getenv("DB_NAME", default = "giftcards"),
-     #    'USER': os.getenv("DB_USER", default = "postgres"),
-     #    'PASSWORD': os.getenv("DB_PASSWORD", default = "postgres"),
-     #    'HOST': os.getenv("DB_HOST", default = "db"),
-     #    'PORT': os.getenv("DB_PORT", default = 5432),
-     #},
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': os.getenv("DB_NAME", default = "giftcards"),
+         'USER': os.getenv("DB_USER", default = "postgres"),
+         'PASSWORD': os.getenv("DB_PASSWORD", default = "postgres"),
+         'HOST': os.getenv("DB_HOST", default = "db"),
+         'PORT': os.getenv("DB_PORT", default = 5432),
+     },
+    #'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #}
 }
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'localhost:9200'
+        'hosts': 'elasticsearch:9200'
     },
 }
 

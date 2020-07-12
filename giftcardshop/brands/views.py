@@ -14,7 +14,7 @@ class BrandListView(View):
         form = SearchForm()
         query = None
 
-        if 'query' in request.GET:
+        if 'query' in request.GET and request.GET.get('query', None) != '':
             form = SearchForm(request.GET)
             if form.is_valid():
                 cleanedData = form.cleaned_data

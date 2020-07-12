@@ -105,8 +105,10 @@ def admin_export_csv_raport(request, start_date=None, end_date=None, brand=None)
             end_date = cleanedData['end_date']
             brands = cleanedData['brands']
 
-        factory = raport.RaportFactory(start_date=start_date, end_date=end_date, brands=brands)
-        raport_set = factory.get_raports()
+        raport_set = raport.RaportFactory.get_raport_set(
+            start_date=start_date, 
+            end_date=end_date, 
+            brands=brands)
 
         response = raport.RaportCsvExporter.export(raport_set)
 
